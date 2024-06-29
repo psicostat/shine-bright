@@ -1,0 +1,214 @@
+---
+title: "Shine bright like an open source app"
+subititle: "An easy introduction to `shiny`"
+format: 
+  revealjs: 
+    page-layout: custom
+server: shiny
+---
+
+
+## The app
+
+```{r}
+#| panel: sidebar
+selectInput(inputId = "dataset", # name of the input (for the server)
+                  label = "Choose a dataset:", # name of the input (for the users)
+                  choices = c("rock", "pressure", "cars")) # options (for  both 
+                                                          # users & server)
+```
+
+
+```{r out.width="30%"}
+#| panel: fill
+ plotOutput("graph" )
+verbatimTextOutput("summary")
+
+```
+
+
+
+
+
+```{r}
+#| context: server
+
+output$graph <- renderPlot({
+    if(input$dataset == "rock"){ # call the input and its options with their label
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    plot(data[, c(1:2)])
+  })
+
+output$summary <- renderPrint({
+    if(input$dataset == "rock"){
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    summary(data[, c(1:2)])
+  })
+
+```
+
+
+
+
+## Code
+
+::: {.panel-tabset}
+
+## UI
+
+```{r}
+#| echo: true
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(inputId = "dataset", # name of the input (for the server)
+                  label = "Choose a dataset:", # name of the input (for the users)
+                  choices = c("rock", "pressure", "cars")) # options (for  both 
+                                                          # users & server)
+    ),
+
+    mainPanel(
+      plotOutput( # define the graphical output (we're telling R that this output 
+        "graph"   # container must contain a plot)
+      ),
+      verbatimTextOutput( # define the graphical output (we're telling R that
+        "summary"   # this output container must contain a Verbatim output)
+      )
+    ) 
+  )
+)
+```
+
+
+## Server
+
+```{r}
+#| echo: true
+
+server <- function(input, output){
+  output$graph <- renderPlot({
+    if(input$dataset == "rock"){ # call the input and its options with their label
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    plot(data[, c(1:2)])
+  })
+
+  output$summary <- renderPrint({
+    if(input$dataset == "rock"){
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    summary(data[, c(1:2)])
+  })
+}
+
+```
+
+
+## Together
+
+```{r}
+#| echo: true
+#| eval: false
+shinyApp(ui, server)
+```
+
+:::
+
+
+## Be like Paganini
+
+::: {.panel-tabset}
+
+## UI
+
+```{r}
+#| echo: true
+# the UI didn't change at all
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(inputId = "dataset",
+                  label = "Choose a dataset:", 
+                  choices = c("rock", "pressure", "cars")) 
+                                                          
+    ),
+    mainPanel(
+      plotOutput( 
+        "graph"   
+      ),
+      verbatimTextOutput( 
+        "summary"   
+      )
+    ) 
+  )
+)
+```
+
+
+## Server
+
+```{r}
+#| echo: true
+
+server <- function(input, output){ 
+
+values <- reactiveValues() # create the shelf with reactive values 
+  dataInput <- reactive({ # create a reactive environment (it reacts to whatever input receives)
+    if(input$dataset == "rock"){ # this part is the same as before
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+  })
+  observe({                      # ta-da, the shelf is in action. To make it works,telling R 
+    values$data <- data.frame(dataInput()) #  it has to be called inside an observe function, 
+  })                                       # we're using a reactive object
+
+
+    output$graph <- renderPlot({
+       plot(values$data[, c(1:2)]) # call the shelf and you're all set
+    })
+
+    output$summary <- renderPrint({
+    summary(values$data)
+    })
+}
+
+```
+
+
+## Together
+
+```{r}
+#| echo: true
+#| eval: false
+shinyApp(ui, server)
+```
+
+:::
+
+
+
+
+
+

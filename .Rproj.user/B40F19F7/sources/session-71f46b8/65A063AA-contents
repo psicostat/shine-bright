@@ -1,0 +1,43 @@
+---
+title: "Shine bright like an open-source app: Una piccola introduzione a Shiny"
+author: "Ottavia M. Epifania"
+format: pdf
+---
+
+Le shiny app sono web-application open source sviluppate attraverso il linguaggio R e sono caratterizzate da una grande flessibilità che ne permette l’utilizzo in diversi ambiti e per diversi scopi, dalla ricerca alla didattica. Una delle loro caratteristiche più apprezzate è rappresentata dal fatto che permettono un'interazione diretta con i dati e permettono di visualizzare immediatamente i risultati di eventuali analisi. 
+Dal punto di vista della didattica, queste app aiutano a presentare in modo dinamico concetti anche complessi e permettono agli studenti di vedere direttamente le implicazioni degli aspetti teorici.
+Per quanto concerne la ricerca, non è infrequente che gli autori propongano una shiny app a supporto dei loro lavori proprio per meglio illustrare in modo interattivo quanto presentato nel paper.
+In questo breve corso, verranno presentati gli aspetti principali del pacchetto shiny, ovvero del pacchetto R ideato per la realizzazione di web application open-source (shiny app).
+Questo corso parte dagli aspetti base del pacchetto shiny e vuole dare una panoramica generale del suo funzionamento e delle potenzialità che offre. 
+Nello specifico, verranno presentate le due componenti principali per il funzionamento della shiny app, ovvero la user interface (ui, quello che gli utenti vedono e l'interfaccia tramite cui interagiscono con la app) e il server (il "motore" sottostante alla ui che svolge tutte le computazioni stabilite dallo user tramite la ui) e le diverse modalità per metterle in comunicazione tra di loro.
+<!-- Inoltre, verrà illustrato come gestire la reattività degli output della app, ovvero come inibire la visualizzazione dell'output e vincolarla all'avvenimento di un evento specifico, come ad esempio il click del pulsante di avvio. Infine, si prenderà in considerazione l'importazione di dati esterni e i download dei risultati delle analisi svolte all'interno del server della shiny app.  -->
+
+
+Sebbene non sia necessaria una profonda conoscenza del linguaggio R, per affrontare questo corso sarebbe meglio avere almeno una conoscenza di base e una certa autonomia nell'utilizzo del software.
+<!-- Nello specifico, è richiesto che gli utenti siano in grado di assegnare gli oggetti alle variabili, di settare le working directory all'interno di R, di gestire i progetti di R e di importare/esportare i risultati delle diverse operazioni in vari formati. -->
+
+\newpage
+
+## Programma 
+
+- Mattina 9-13: Introduzione al pacchetto shiny, installazione, creazione di un progetto specifico per lo sviluppo delle app, definizione della *user interface* (ui), del *server* e del loro collegamento, importazione/gestione dei dati, eventi reactive
+
+- Pomeriggio 14-16: Time to shine together! Creazione di app di base in attività di gruppo
+<!-- ## Giorno 1 -->
+
+<!-- 1. Mattina: Introduzione al pacchetto shiny, installazione, creazione di un progetto specifico per lo sviluppo delle app, definizione della *user interface* (ui), del *server* e del loro collegamento  -->
+
+
+<!-- 2. Pomeriggio: Creazione di una app di base con diverse tab per la definizione degli input e degli output, importare i dati, scaricare i risultati delle analisi -->
+
+<!-- ## Giorno 2  -->
+
+<!-- 1. Mattina: I reactive di shiny per "bloccare" l'azione e vincolarla ad eventi specifici, ciclo input-output-input per interagire  direttamente con il dataset importato -->
+
+<!-- 2. Pomeriggio: Creare e impostare il server, deploy della app nel server per condividerla con tutt* -->
+
+## Generiche
+
+Aula: 4T
+
+Data: 11 luglio 2024, 9-16

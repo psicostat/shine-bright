@@ -1,0 +1,127 @@
+---
+title: "Slow and steady wins the race - `eventReactive()`"
+author: "Ottavia M. Epifania"
+format: 
+  revealjs: 
+    page-layout: custom
+server: shiny
+---
+
+
+## Take things slowly and use the action buttons
+
+There are two ways of using the action buttons: 
+
+1. Use `eventReactive()`
+2. Use the shelf we have seen before and adding the action button 
+
+(Throughout the course $\rightarrow$ solution number 2 because I'm not sure I'm good with solution 1, sorry)
+
+
+
+## An example
+
+```{r}
+#| panel: sidebar
+selectInput(inputId = "dataset",
+                    label = "Choose a dataset:",
+                    choices = list("rock" = 1, 
+                                   "pressure" = 2,
+                                   "cars" = 3))
+actionButton("load", "Select dataset")
+```
+
+```{r}
+#| panel: fill
+plotOutput("graph") 
+verbatimTextOutput("summary")
+```
+
+```{r}
+#| context: server
+dataInput = eventReactive(input$load, {
+      if(input$dataset == 1){
+        data <- rock
+      } else if (input$dataset == 2 ){
+        data <- pressure
+      } else if (input$dataset == 3) {
+        data <- cars
+      } 
+    })
+
+output$graph <- renderPlot({
+      data = dataInput()
+      plot(data[, c(1:2)])
+    })
+    
+output$summary <- renderPrint({
+      data = dataInput()
+      summary(data[, c(1:2)])
+    })
+```
+
+## The code 
+
+
+::: {.panel-tabset}
+
+## UI 
+
+```{r}
+#| echo: true
+ui <- fluidPage(
+    sidebarLayout(sidebarPanel(
+        selectInput(inputId = "dataset",
+                    label = "Choose a dataset:",
+                    choices = list("rock" = 1, 
+                                   "pressure" = 2,
+                                   "cars" = 3)), 
+      actionButton("load", "Select dataset")
+      ),
+      mainPanel(
+        plotOutput(
+          "graph"   
+        ), 
+        verbatimTextOutput( 
+          "summary"   
+        ))))
+```
+
+
+## Server 
+
+```{r}
+#| echo: true
+server <- function(input, output){
+    dataInput <- eventReactive(input$load, {
+      if(input$dataset == 1){
+        data <- rock
+      } else if (input$dataset == 2 ){
+        data <- pressure
+      } else if (input$dataset == 3) {
+        data <- cars
+      } 
+    } 
+    )
+    output$graph <- renderPlot({
+      data <- dataInput()
+      plot(data[, c(1:2)])
+    })
+    output$summary <- renderPrint({
+      data <- dataInput()
+      summary(data[, c(1:2)])
+    })
+  }
+```
+
+
+## Together
+
+
+```{r}
+#| echo: true
+#| eval: false
+shinyApp(ui, server)
+```
+
+:::
