@@ -1,0 +1,406 @@
+---
+title: "Shine bright like an open source app"
+subititle: "An easy introduction to `shiny`"
+author: "Ottavia M. Epifania"
+format: 
+  revealjs: 
+    page-layout: custom
+server: shiny
+---
+
+# Introduction 
+
+## Shiny app logic I 
+
+:::: {.columns}
+
+::: {.column}
+`ui` (**U**ser **I**nterface)
+
+The container, whatever sees the user
+
+Used for setting the desired configurations of options that will be elaborated in the server 
+
+Used for displaying the results of the computations that took place in the server
+
+:::
+
+::: {.column}
+
+`server`
+
+It gets the work done, according to the configuration set in the UI
+
+Replaces the results into the allocated spaces
+
+:::
+
+
+::::
+
+## A flow
+
+```{r}
+#| eval: true
+#| out-width: 40%
+#| fig-align: "center"
+knitr::include_graphics("www/flow.png")
+```
+
+>
+>   - Define something in the `ui` and not using in the server: nothing happens, it just doesn't exist
+>
+  - Calling something in the server that has not been defined in the `ui`: errors everywhere
+  
+
+## First things first:
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages("shiny") # install
+library(shiny) # use it
+```
+
+And then:
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|1-3|4-6|7"
+ui = fluidPage(          # Define the ui
+   [...]
+  )
+server = function(input, output){ # Define the server
+  [...]
+}
+shinyApp(ui, server)  # create the App
+```
+
+Yes... it's **that** easy
+
+## Be tidy, be consistent, save time
+
+- Use `R` projects with the default for shiny app creations
+
+- 10 minutes coding $=$ 1 hour of debugging
+
+- If the app is particularly complex and long, it's better to save `ui` and `server` in two different scripts
+
+
+## To each its own: Input in UI
+
+```{r eval=FALSE}
+#| echo: true
+sliderInput()     # Slider input widget
+numericInput()    # Numeric input control
+selectInput()     # Select list input control
+checkboxInput()   # Checkbox input control
+checkboxGroupInput()
+dateInput()       # Date input
+fileInput()       # File upload control
+radioButtons()    # Radio buttons
+textInput()       # Text input control
+passwordInput()   # Password input control
+actionButton()    # Action button
+dateInput()       # Date input
+dateRangeInput()  # Input a data range
+```
+
+[Complete list](https://shiny.rstudio.com/gallery/widget-gallery.html) (with code)
+
+
+```{r eval=FALSE}
+#| echo: true
+#| code-line-numbers: "|1|2|3|4"
+selectInput(inputId = "mySelection", 
+            label = h3("Select box"),
+    choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+    selected = 1)
+```
+
+
+
+## To each its own: Output in UI
+
+```{r eval=FALSE}
+#| echo: true
+plotOutput()          # Plot output element
+textOutput()          # Text output element
+verbatimTextOutput()  # Verbatim text output element
+tableOutput()         # Table output element
+dataTableOutput()     # Data table output element
+htmlOutput()          # HTML output element
+uiOutput()            # user interface element
+downloadButton()      # Download button
+Progress()            # Reporting progress (object oriented)
+withProgress()        # Reporting progress (functional)
+outputOptions()       # Set options for an output object
+```
+
+Labels:
+
+```{r eval = FALSE}
+#| echo: true
+verbatimTextOutput(
+  outputId = "myOutput"
+)
+```
+
+
+## To each its own: Output containers in server
+
+```{r, eval =FALSE}
+#| echo: true
+renderPlot()        # Plot output
+renderText()        # Text output
+renderPrint()       # Printable output
+renderTable()       # Table output
+renderDataTable()   # Data table output
+renderImage()       # Image file output
+renderUI()          # UI output
+downloadHandler()   # File downloads
+```
+
+<br>
+
+```{r eval=FALSE}
+#| echo: true
+#| code-line-numbers: "|1,5|2-4"
+server = function(input, output) {
+  output$myOutput = renderText({
+    paste(paste("This is my choice"), input$mySelection)
+  })
+}
+```
+
+## App layout
+
+```{r eval=FALSE}
+#| echo: true
+fluidPage()   # rows with columns within 12-unit
+              # wide grid
+
+fluidRow(      # custom the page in two columns
+  column(6, ), # of width 6 out of the 12-unit
+  column(6)    # on a single row
+)
+
+sidebarLayout(     # automatic layout with
+sidebarPanel(...), # sidebar and
+mainPanel(...)    # main area
+)
+
+# and many more!
+```
+
+[Complete list](https://shiny.rstudio.com/gallery/) (look for "Application layout")
+
+
+## The app
+
+```{r}
+#| panel: sidebar
+selectInput(inputId = "dataset", # name of the input (for the server)
+                  label = "Choose a dataset:", # name of the input (for the users)
+                  choices = c("rock", "pressure", "cars")) # options (for  both 
+                                                          # users & server)
+```
+
+
+```{r out.width="30%"}
+#| panel: fill
+ plotOutput("graph" )
+verbatimTextOutput("summary")
+
+```
+
+
+
+
+
+```{r}
+#| context: server
+
+output$graph <- renderPlot({
+    if(input$dataset == "rock"){ # call the input and its options with their label
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    plot(data[, c(1:2)])
+  })
+
+output$summary <- renderPrint({
+    if(input$dataset == "rock"){
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    summary(data[, c(1:2)])
+  })
+
+```
+
+
+
+
+## Code
+
+::: {.panel-tabset}
+
+## UI
+
+```{r}
+#| echo: true
+#| code-line-numbers: "|1,18|2,17|3,8|9,16|4-6|10-12|13-15"
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(inputId = "dataset", # name of the input (for the server)
+                  label = "Choose a dataset:", # name of the input (for the users)
+                  choices = c("rock", "pressure", "cars")) # options (for  both 
+                                                          # users & server)
+    ),
+    mainPanel(
+      plotOutput( # define the graphical output (we're telling R that this output 
+        "graph"   # container must contain a plot)
+      ),
+      verbatimTextOutput( # define the graphical output (we're telling R that
+        "summary"   # this output container must contain a Verbatim output)
+      )
+    ) 
+  )
+)
+```
+
+
+## Server
+
+```{r}
+#| echo: true
+#| code-line-numbers: "|1,22|2-11|12-21|"
+server <- function(input, output){
+  output$graph <- renderPlot({
+    if(input$dataset == "rock"){ # call the input and its options with their label
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    plot(data[, c(1:2)])
+  })
+output$summary <- renderPrint({
+    if(input$dataset == "rock"){
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+    summary(data[, c(1:2)])
+  })
+}
+```
+
+
+## Together
+
+```{r}
+#| echo: true
+#| eval: false
+shinyApp(ui, server)
+```
+
+:::
+
+
+## Be like Paganini
+
+::: {.panel-tabset}
+
+
+## Server
+
+```{r}
+#| echo: true
+#| code-line-numbers: "|2-11|12-14|15-20"
+server <- function(input, output){ 
+values <- reactiveValues() # create the shelf with reactive values 
+  dataInput <- reactive({ # create a reactive environment (it reacts to whatever input receives)
+    if(input$dataset == "rock"){ # this part is the same as before
+      data <- rock
+    } else if (input$dataset == "pressure" ){
+      data <- pressure
+    } else if (input$dataset == "cars") {
+      data <- cars
+    }
+  })
+observe({                      # ta-da, the shelf is in action. To make it works,telling R 
+    values$data <- data.frame(dataInput()) #  it has to be called inside an observe function, 
+  })                                       # we're using a reactive object
+output$graph <- renderPlot({
+       plot(values$data[, c(1:2)]) # call the shelf and you're all set
+    })
+output$summary <- renderPrint({
+    summary(values$data)
+})
+}
+
+```
+
+
+## UI
+
+```{r}
+#| echo: true
+# the UI didn't change at all
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(inputId = "dataset",
+                  label = "Choose a dataset:", 
+                  choices = c("rock", "pressure", "cars")) 
+                                                          
+    ),
+    mainPanel(
+      plotOutput( 
+        "graph"   
+      ),
+      verbatimTextOutput( 
+        "summary"   
+      )
+    ) 
+  )
+)
+```
+
+
+
+## Together
+
+```{r}
+#| echo: true
+#| eval: false
+shinyApp(ui, server)
+```
+
+:::
+
+# Slow and steady wins the race 
+
+## Take things slowly and use the action buttons
+
+There are two ways of using the action buttons: 
+
+1. Use `eventReactive()`
+2. Use the shelf we have seen before and adding the action button 
+
+(Throughout the course $\rightarrow$ solution number 2 because I'm not sure I'm good with solution 1, sorry)
+
+
