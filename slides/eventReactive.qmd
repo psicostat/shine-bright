@@ -8,15 +8,6 @@ server: shiny
 ---
 
 
-## Take things slowly and use the action buttons
-
-There are two ways of using the action buttons: 
-
-1. Use `eventReactive()`
-2. Use the shelf we have seen before and adding the action button 
-
-(Throughout the course $\rightarrow$ solution number 2 because I'm not sure I'm good with solution 1, sorry)
-
 
 
 ## An example
@@ -69,6 +60,7 @@ output$summary <- renderPrint({
 
 ```{r}
 #| echo: true
+#| code-line-numbers: "|8|"
 ui <- fluidPage(
     sidebarLayout(sidebarPanel(
         selectInput(inputId = "dataset",
@@ -78,13 +70,13 @@ ui <- fluidPage(
                                    "cars" = 3)), 
       actionButton("load", "Select dataset")
       ),
-      mainPanel(
-        plotOutput(
+mainPanel(
+      plotOutput(
           "graph"   
         ), 
-        verbatimTextOutput( 
+      verbatimTextOutput( 
           "summary"   
-        ))))
+      ))))
 ```
 
 
@@ -92,6 +84,7 @@ ui <- fluidPage(
 
 ```{r}
 #| echo: true
+#| code-line-numbers: "|2-11|13,17"
 server <- function(input, output){
     dataInput <- eventReactive(input$load, {
       if(input$dataset == 1){
@@ -103,11 +96,11 @@ server <- function(input, output){
       } 
     } 
     )
-    output$graph <- renderPlot({
+output$graph <- renderPlot({
       data <- dataInput()
       plot(data[, c(1:2)])
     })
-    output$summary <- renderPrint({
+output$summary <- renderPrint({
       data <- dataInput()
       summary(data[, c(1:2)])
     })

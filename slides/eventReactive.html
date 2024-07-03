@@ -401,15 +401,6 @@ Ottavia M. Epifania
 </div>
 
 </section>
-<section id="take-things-slowly-and-use-the-action-buttons" class="slide level2">
-<h2>Take things slowly and use the action buttons</h2>
-<p>There are two ways of using the action buttons:</p>
-<ol type="1">
-<li>Use <code>eventReactive()</code></li>
-<li>Use the shelf we have seen before and adding the action button</li>
-</ol>
-<p>(Throughout the course <span class="math inline">\(\rightarrow\)</span> solution number 2 because I’m not sure I’m good with solution 1, sorry)</p>
-</section>
 <section id="an-example" class="slide level2">
 <h2>An example</h2>
 <div class="layout-sidebar layout-sidebar-left">
@@ -446,7 +437,7 @@ Ottavia M. Epifania
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|8|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="fu">sidebarLayout</span>(<span class="fu">sidebarPanel</span>(</span>
 <span id="cb1-3"><a href="#cb1-3"></a>        <span class="fu">selectInput</span>(<span class="at">inputId =</span> <span class="st">"dataset"</span>,</span>
 <span id="cb1-4"><a href="#cb1-4"></a>                    <span class="at">label =</span> <span class="st">"Choose a dataset:"</span>,</span>
@@ -455,18 +446,18 @@ Ottavia M. Epifania
 <span id="cb1-7"><a href="#cb1-7"></a>                                   <span class="st">"cars"</span> <span class="ot">=</span> <span class="dv">3</span>)), </span>
 <span id="cb1-8"><a href="#cb1-8"></a>      <span class="fu">actionButton</span>(<span class="st">"load"</span>, <span class="st">"Select dataset"</span>)</span>
 <span id="cb1-9"><a href="#cb1-9"></a>      ),</span>
-<span id="cb1-10"><a href="#cb1-10"></a>      <span class="fu">mainPanel</span>(</span>
-<span id="cb1-11"><a href="#cb1-11"></a>        <span class="fu">plotOutput</span>(</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">mainPanel</span>(</span>
+<span id="cb1-11"><a href="#cb1-11"></a>      <span class="fu">plotOutput</span>(</span>
 <span id="cb1-12"><a href="#cb1-12"></a>          <span class="st">"graph"</span>   </span>
 <span id="cb1-13"><a href="#cb1-13"></a>        ), </span>
-<span id="cb1-14"><a href="#cb1-14"></a>        <span class="fu">verbatimTextOutput</span>( </span>
+<span id="cb1-14"><a href="#cb1-14"></a>      <span class="fu">verbatimTextOutput</span>( </span>
 <span id="cb1-15"><a href="#cb1-15"></a>          <span class="st">"summary"</span>   </span>
-<span id="cb1-16"><a href="#cb1-16"></a>        ))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-16"><a href="#cb1-16"></a>      ))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){</span>
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|2-11|13,17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){</span>
 <span id="cb2-2"><a href="#cb2-2"></a>    dataInput <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(input<span class="sc">$</span>load, {</span>
 <span id="cb2-3"><a href="#cb2-3"></a>      <span class="cf">if</span>(input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">1</span>){</span>
 <span id="cb2-4"><a href="#cb2-4"></a>        data <span class="ot">&lt;-</span> rock</span>
@@ -477,11 +468,11 @@ Ottavia M. Epifania
 <span id="cb2-9"><a href="#cb2-9"></a>      } </span>
 <span id="cb2-10"><a href="#cb2-10"></a>    } </span>
 <span id="cb2-11"><a href="#cb2-11"></a>    )</span>
-<span id="cb2-12"><a href="#cb2-12"></a>    output<span class="sc">$</span>graph <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb2-12"><a href="#cb2-12"></a>output<span class="sc">$</span>graph <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
 <span id="cb2-13"><a href="#cb2-13"></a>      data <span class="ot">&lt;-</span> <span class="fu">dataInput</span>()</span>
 <span id="cb2-14"><a href="#cb2-14"></a>      <span class="fu">plot</span>(data[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
 <span id="cb2-15"><a href="#cb2-15"></a>    })</span>
-<span id="cb2-16"><a href="#cb2-16"></a>    output<span class="sc">$</span>summary <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
+<span id="cb2-16"><a href="#cb2-16"></a>output<span class="sc">$</span>summary <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
 <span id="cb2-17"><a href="#cb2-17"></a>      data <span class="ot">&lt;-</span> <span class="fu">dataInput</span>()</span>
 <span id="cb2-18"><a href="#cb2-18"></a>      <span class="fu">summary</span>(data[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
 <span id="cb2-19"><a href="#cb2-19"></a>    })</span>
