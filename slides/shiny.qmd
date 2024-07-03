@@ -485,6 +485,6 @@ There are two ways of using the action buttons:
 1. Use `eventReactive()`
 2. Use the shelf we have seen before and adding the action button 
 
-(Throughout the course $\rightarrow$ solution number 2 because I'm not sure I'm good with solution 1, sorry)
+(Throughout the course $\rightarrow$ [solution number 2](https://psicostat.github.io/shine-bright/slides/shelf.html#/title-slide) because I'm not sure I'm good with [solution 1](https://psicostat.github.io/shine-bright/slides/eventReactive.html#/title-slide), sorry)
 
 
