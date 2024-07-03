@@ -5,6 +5,7 @@ author: "Ottavia M. Epifania"
 format: 
   revealjs: 
     page-layout: custom
+    theme: simple
 server: shiny
 ---
 
@@ -81,11 +82,46 @@ Yes... it's **that** easy
 
 ## Be tidy, be consistent, save time
 
+<br> 
+
 - Use `R` projects with the default for shiny app creations
 
 - 10 minutes coding $=$ 1 hour of debugging
 
 - If the app is particularly complex and long, it's better to save `ui` and `server` in two different scripts
+
+
+## File $\rightarrow$ New Project: 
+
+
+
+:::: {.columns}
+
+::: {.column width=50%}
+```{r }
+#| out-width: 80%
+knitr::include_graphics("www/porject.png")
+```
+
+:::
+
+
+
+::: {.column width=50%}
+```{r}
+#| out-width: 80%
+knitr::include_graphics("www/shinyProject.png")
+```
+
+:::
+
+::::
+
+```{r}
+#| out-width: 50%
+#| fig-align: center
+knitr::include_graphics("www/shine.png")
+```
 
 
 ## To each its own: Input in UI
@@ -173,6 +209,54 @@ server = function(input, output) {
   })
 }
 ```
+
+## An astonishing result
+
+::: {.panel-tabset}
+
+## The app
+
+```{r}
+#| panel: center
+selectInput(inputId = "mySelection", 
+            label = h2("Select box"),
+    choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+    selected = 1)
+verbatimTextOutput("myOutput")
+```
+
+
+```{r}
+#| context: server
+output$myOutput = renderPrint({
+    paste(paste("This is my choice"), input$mySelection)
+})
+```
+
+
+## The code 
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|1-7|8-12|13"
+ui = fluidPage(selectInput(inputId = "mySelection", 
+                          label = h3("Select box"),
+                          choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
+                          selected = 1),
+         verbatimTextOutput(
+           outputId = "myOutput"
+         ))
+server = function(input, output) {
+           output$myOutput = renderPrint({
+             paste(paste("This is my choice"), input$mySelection)
+           })
+}
+shinyApp(ui, server)
+```
+
+
+:::
 
 ## App layout
 
