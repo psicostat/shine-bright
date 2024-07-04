@@ -1,0 +1,10 @@
+name: interactive-graphs
+title:
+username: ottaviae
+account: ottaviae
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12274533
+bundleId: 8824487
+url: https://ottaviae.shinyapps.io/interactive-graphs/
+version: 1
