@@ -403,6 +403,67 @@ Ottavia M. Epifania
 </section>
 <section id="download-the-summary" class="slide level2">
 <h2>Download the summary</h2>
+<div class="layout-sidebar layout-sidebar-left">
+<div class="cell panel-sidebar">
+<div class="cell-output-display">
+<a id="imp_det" href="#">
+<h3 style="font-style: normal; font-size: 14pt;">Choose a dataset</h3>
+</a>
+</div>
+<div class="cell-output-display no-overflow-x">
+<div class="form-group shiny-input-container">
+<label class="control-label" id="dataset-label" for="dataset"></label>
+<div>
+<select id="dataset" class="shiny-input-select"><option value="1" selected="">rock</option>
+<option value="2">pressure</option>
+<option value="3">cars</option>
+<option value="4">I want to use my data!!</option></select>
+<script type="application/json" data-for="dataset" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+</div>
+</div>
+</div>
+<div class="cell-output-display">
+<div data-display-if="input.dataset == '4'" data-ns-prefix="">
+<div class="form-group shiny-input-container">
+<label class="control-label" id="example-label" for="example"></label>
+<div class="input-group">
+<label class="input-group-btn input-group-prepend">
+<span class="btn btn-default btn-file">
+Browse...
+<input id="example" class="shiny-input-file" name="example" type="file" style="position: absolute !important; top: -99999px !important; left: -99999px !important;" accept="csv">
+</span>
+</label>
+<input type="text" class="form-control" placeholder="No file selected" readonly="readonly">
+</div>
+<div id="example_progress" class="progress active shiny-file-input-progress">
+<div class="progress-bar"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell-output-display">
+<button id="load" type="button" class="btn btn-default action-button">Upload data</button>
+</div>
+<div class="cell-output-display">
+<div data-display-if="input.load >= '1'" data-ns-prefix="">
+<div id="var1" class="shiny-html-output"></div>
+<div id="var2" class="shiny-html-output"></div>
+<button id="select" type="button" class="btn btn-default action-button">Select &amp; Display</button>
+</div>
+</div>
+</div>
+<div class="cell panel-fill">
+<div class="cell-output-display">
+<div class="shiny-plot-output html-fill-item" id="graph" style="width:100%;height:400px;"></div>
+</div>
+<div class="cell-output-display">
+<pre class="shiny-text-output noplaceholder" id="summary"></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="code" class="slide level2">
+<h2>Code</h2>
 <div class="panel-tabset">
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">UI</a></li><li><a href="#tabset-1-2">Server</a></li><li><a href="#tabset-1-3">Together</a></li></ul>
 <div class="tab-content">
@@ -526,6 +587,115 @@ Ottavia M. Epifania
 </div>
 </div>
 </div>
+<p>
+<script type="application/shiny-prerendered" data-context="server">
+library(tidyverse)
+values <- reactiveValues()
+dataInput <- reactive({
+    if(input$dataset == 1){
+      data <- rock
+    } else if (input$dataset == 2 ){
+      data <- pressure
+    } else if (input$dataset == 3) {
+      data <- cars
+    } else if (input$dataset == 4) {
+      data <- read.csv(input$example$datapath)
+    }
+  })
+observeEvent(input$load, {
+    values$data <- data.frame(dataInput())
+    # check the characters
+    if (any(sapply(values$data, is.character)) == TRUE) {
+      values$data[, sapply(values$data, is.character) == T] = lapply(values$data[, sapply(values$data, is.character) == T], as.factor)
+    } else {
+      values$data = values$data
+    }
+  })
+output$var1 <- renderUI({    
+    nam <- colnames(values$data) 
+    selectInput("var1", label = "Select x:", 
+                choices = c(nam), multiple = F,
+                selected = nam[1])
+  })
+output$var2 <- renderUI({
+    nam2 <- colnames(values$data) 
+    selectInput("var2", label = "Select y:",
+                choices = c(nam2), multiple = F,
+                selected = nam2[1])
+  })
+newdata <- observeEvent(input$select, 
+                          {values$df <- values$data[c(input$var1, input$var2)]
+                          })
+output$graph <- renderPlot({
+    validate(
+      need(input$select > 0, "Waiting for data") 
+    )                                        # load to select
+df = values$df
+    plot(df[, c(1:2)]) # use it normally
+  })
+output$summary <- renderPrint({
+    validate(
+      need(input$select > 0, "Waiting for data")
+    )
+df <- values$df # 
+descript_data = df %>%
+      summarise(m_1 = mean(df[,1]), sd_1 = sd(df[,1]),
+                m_2 = mean(df[,2]), sd_2 = sd(df[,2]))
+    colnames(descript_data) = gsub("1", colnames(df)[1], colnames(descript_data))
+    colnames(descript_data) = gsub("2", colnames(df)[2], colnames(descript_data))
+    descript_data = data.frame(descript_data)
+    values$descript_data = descript_data
+    descript_data
+  })
+output$downloadSummary <- downloadHandler(
+    filename = function() {
+      paste("descriptive-",input$dataset, ".csv", sep = "")
+    },
+    content = function(file) {
+      write.table(values$descript_data, file, sep = ",",
+                  row.names = FALSE)
+    }
+  )
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server-extras">
+ojs_define <- function(..., .session = shiny::getDefaultReactiveDomain()) {
+  quos <- rlang::enquos(...)
+  vars <- rlang::list2(...)
+  nm <- names(vars)
+  if (is.null(nm)) {
+    nm <- rep_len("", length(vars))
+  }
+  mapply(function(q, nm, val) {
+    # Infer name, if possible
+    if (nm == "") {
+      tryCatch({
+        nm <- rlang::as_name(q)
+      }, error = function(e) {
+        code <- paste(collapse = "\n", deparse(rlang::f_rhs(q)))
+        stop("ojs_define() could not create a name for the argument: ", code)
+      })
+    }
+    .session$output[[nm]] <- val
+    outputOptions(.session$output, nm, suspendWhenHidden = FALSE)
+    .session$sendCustomMessage("ojs-export", list(name = nm))
+    NULL
+  }, quos, nm, vars, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+  invisible()
+}
+</script>
+</p>
+<!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="dependencies">
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["selectize"]},{"type":"character","attributes":{},"value":["0.15.2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["www/shared/selectize"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/selectize.min.js","accessibility/js/selectize-plugin-a11y.min.js"]},{"type":"character","attributes":{},"value":["css/selectize.bootstrap3.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["shiny"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["1.8.0"]}]}]}
+</script>
+<!--/html_preserve-->
+<!--html_preserve-->
+
+<script type="application/shiny-prerendered" data-context="execution_dependencies">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38]}},"value":[{"type":"character","attributes":{},"value":["base","bslib","cachem","cli","compiler","datasets","digest","ellipsis","evaluate","fastmap","fontawesome","graphics","grDevices","htmltools","httpuv","jquerylib","jsonlite","knitr","later","lifecycle","magrittr","memoise","methods","mime","promises","R6","Rcpp","rlang","rmarkdown","rstudioapi","sass","shiny","stats","tools","utils","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["4.3.3","0.6.0","1.0.8","3.6.1","4.3.3","4.3.3","0.6.33","0.3.2","0.23","1.1.1","0.5.2","4.3.3","4.3.3","0.5.7","1.6.12","0.1.4","1.8.7","1.45","1.3.1","1.0.4","2.0.3","2.0.1","4.3.3","0.12","1.2.1","2.5.1","1.0.11","1.1.2","2.25","0.15.0","0.4.7","1.8.0","4.3.3","4.3.3","4.3.3","0.42","1.8-4","2.3.7"]}]}]}
+</script>
+<!--/html_preserve-->
 <div class="footer footer-default">
 
 </div>

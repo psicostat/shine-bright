@@ -114,7 +114,7 @@ server = function(input, output){
       paste("descriptive-",input$dataset, ".csv", sep = "")
     },
     content = function(file) {
-      write.table(descript_data, file, sep = ",",
+      write.table(values$descript_data, file, sep = ",",
                   row.names = FALSE)
     }
   )
