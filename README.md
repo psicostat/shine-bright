@@ -13,4 +13,4 @@ Here's the topics:
 - 05 - Spread the shine like a fever [HTML](slides/deploy.html)
 - 06 - Interactive graphs [HTML](slides/interactive-graphs.html)
 
-Here you can find some [example apps](appExamples) you can use as a starting point for your projects! Some of them are broken, some are not...choose your own adventure :)
+Here you can find some [example apps]([appExamples](https://github.com/psicostat/shine-bright/tree/main/appExamples)) you can use as a starting point for your projects! Some of them are broken, some are not...choose your own adventure :)
