@@ -11,5 +11,6 @@ Here's the topics:
 - 03 - Improvise, adapt, overcome [HTML](slides/ownData.html)
 - 04 - Dowload [HTML](slides/download.html)
 - 05 - Spread the shine like a fever [HTML](slides/deploy.html)
+- 06 - Interactive graphs [HTML](slides/interactive-graphs.html)
 
 Here you can find some [example apps](appExamples) you can use as a starting point for your projects! Some of them are broken, some are not...choose your own adventure :)
