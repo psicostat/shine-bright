@@ -221,17 +221,21 @@ output$summary <- renderPrint({
 
 ## Step 0 
 
-![](www/step0.png){.fragment width="450" height="300"}
+![](www/step0.png){width="450" height="300" fig-aling="center"}
+
 
 ## Step 1
 
-![](www/step01.png){.fragment width="450" height="300"}
+![](www/step01.png){width="450" height="300"  fig-aling="center"}
 
 ## Step 2
 
-![](www/step02.png){.fragment width="450" height="300"}
+![](www/step02.png){width="450" height="300"  fig-aling="center"}
+
+
 ## Step 3 
-![](www/step03.png){.fragment width="450" height="300"}
+
+![](www/step03.png){width="450" height="300"  fig-aling="center"}
 :::
 
 ## The code 
