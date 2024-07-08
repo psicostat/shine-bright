@@ -4,7 +4,7 @@ author: "Ottavia M. Epifania"
 format: 
   revealjs: 
     page-layout: custom
-    theme: simple
+    theme: sky
 #server: shiny
 ---
 
