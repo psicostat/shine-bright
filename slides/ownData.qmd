@@ -20,6 +20,45 @@ library(emoji)
 
 ::: {.panel-tabset}
 
+## UI 
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "|3-8|10-16|11|"
+ui = fluidPage(
+  sidebarLayout(sidebarPanel(
+      selectInput(inputId = "dataset",
+                  label = "Choose a dataset:",
+                  choices = list("rock" = 1, 
+                                 "pressure" = 2,
+                                 "cars" = 3,
+                                 "I want to use my data!!" =4)), 
+      # Let me introduce you Mr. Conditional Panel
+      conditionalPanel(
+        condition = "input.dataset == '4'", # What is the condition for which I should show up?
+        # What should be displayed inside me once I show up?
+        fileInput("example",  # label for the server
+                  "", # no displayed label for users
+                  accept = c("csv")) # what format do we accept?
+      ),
+      actionButton("load", "Upload data")
+    ),
+    mainPanel(
+      plotOutput(
+        "graph"
+      ),
+      verbatimTextOutput(
+        "summary"
+      )
+    ) # display output
+  )
+)
+```
+
+
+
 ## Server
 
 ```{r}
@@ -67,42 +106,6 @@ output$summary <- renderPrint({
 ```
 
 
-## UI 
-
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-line-numbers: "|3-8|10-16|11|"
-ui = fluidPage(
-  sidebarLayout(sidebarPanel(
-      selectInput(inputId = "dataset",
-                  label = "Choose a dataset:",
-                  choices = list("rock" = 1, 
-                                 "pressure" = 2,
-                                 "cars" = 3,
-                                 "I want to use my data!!" =4)), 
-      # Let me introduce you Mr. Conditional Panel
-      conditionalPanel(
-        condition = "input.dataset == '4'", # What is the condition for which I should show up?
-        # What should be displayed inside me once I show up?
-        fileInput("example",  # label for the server
-                  "", # no displayed label for users
-                  accept = c("csv")) # what format do we accept?
-      ),
-      actionButton("load", "Upload data")
-    ),
-    mainPanel(
-      plotOutput(
-        "graph"
-      ),
-      verbatimTextOutput(
-        "summary"
-      )
-    ) # display output
-  )
-)
-```
 
 
 :::

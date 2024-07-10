@@ -409,80 +409,80 @@ Ottavia M. Epifania
 <section id="look-at-the-code" class="slide level2">
 <h2>Look at the code</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Server</a></li><li><a href="#tabset-1-2">UI</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">UI</a></li><li><a href="#tabset-1-2">Server</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|18, 25|31,33|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>server <span class="ot">=</span> <span class="cf">function</span>(input, output){</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  values <span class="ot">&lt;-</span> <span class="fu">reactiveValues</span>()</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  dataInput <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    <span class="cf">if</span>(input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">1</span>){ </span>
-<span id="cb1-5"><a href="#cb1-5"></a>      data <span class="ot">&lt;-</span> rock</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    } <span class="cf">else</span> <span class="cf">if</span> (input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">2</span> ){</span>
-<span id="cb1-7"><a href="#cb1-7"></a>      data <span class="ot">&lt;-</span> pressure</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    } <span class="cf">else</span> <span class="cf">if</span> (input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">3</span>) {</span>
-<span id="cb1-9"><a href="#cb1-9"></a>      data <span class="ot">&lt;-</span> cars</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    } <span class="cf">else</span> <span class="cf">if</span> (input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">4</span>) {</span>
-<span id="cb1-11"><a href="#cb1-11"></a>      data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(input<span class="sc">$</span>example<span class="sc">$</span>datapath) </span>
-<span id="cb1-12"><a href="#cb1-12"></a>    }</span>
-<span id="cb1-13"><a href="#cb1-13"></a>  })</span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>load, {</span>
-<span id="cb1-15"><a href="#cb1-15"></a>    values<span class="sc">$</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">dataInput</span>())</span>
-<span id="cb1-16"><a href="#cb1-16"></a>  })</span>
-<span id="cb1-17"><a href="#cb1-17"></a>output<span class="sc">$</span>graph <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb1-18"><a href="#cb1-18"></a>    <span class="fu">validate</span>(<span class="fu">need</span>(input<span class="sc">$</span>load <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Waiting for data"</span>))</span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">colnames</span>(values<span class="sc">$</span>data) <span class="sc">==</span> <span class="st">"condition"</span>) ){ </span>
-<span id="cb1-20"><a href="#cb1-20"></a>  <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">sapply</span>(values<span class="sc">$</span>data, is.character)) <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb1-21"><a href="#cb1-21"></a>  values<span class="sc">$</span>data[, <span class="fu">sapply</span>(values<span class="sc">$</span>data, is.character) <span class="sc">==</span> T] <span class="ot">=</span> <span class="fu">lapply</span>(values<span class="sc">$</span>data[,   <span class="fu">sapply</span>(values<span class="sc">$</span>data, is.character) <span class="sc">==</span> T], as.factor)</span>
-<span id="cb1-22"><a href="#cb1-22"></a>      } <span class="cf">else</span> {</span>
-<span id="cb1-23"><a href="#cb1-23"></a>  values<span class="sc">$</span>data <span class="ot">=</span> values<span class="sc">$</span>data</span>
-<span id="cb1-24"><a href="#cb1-24"></a>    }</span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="fu">plot</span>(values<span class="sc">$</span>data<span class="sc">$</span>tr <span class="sc">~</span> values<span class="sc">$</span>data<span class="sc">$</span>condition, <span class="at">xlab =</span> <span class="st">"Condition"</span>, <span class="at">ylab =</span> <span class="st">"TR"</span>)</span>
-<span id="cb1-26"><a href="#cb1-26"></a>} <span class="cf">else</span> {</span>
-<span id="cb1-27"><a href="#cb1-27"></a>      <span class="fu">plot</span>(values<span class="sc">$</span>data[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
-<span id="cb1-28"><a href="#cb1-28"></a>    }</span>
-<span id="cb1-29"><a href="#cb1-29"></a>})</span>
-<span id="cb1-30"><a href="#cb1-30"></a>output<span class="sc">$</span>summary <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
-<span id="cb1-31"><a href="#cb1-31"></a>    <span class="fu">validate</span>(<span class="fu">need</span>(input<span class="sc">$</span>load <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Waiting for data"</span>))</span>
-<span id="cb1-32"><a href="#cb1-32"></a>  <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">colnames</span>(values<span class="sc">$</span>data) <span class="sc">==</span> <span class="st">"condition"</span>) ){</span>
-<span id="cb1-33"><a href="#cb1-33"></a>      <span class="fu">summary</span>(values<span class="sc">$</span>data[, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>)])</span>
-<span id="cb1-34"><a href="#cb1-34"></a>    } <span class="cf">else</span> {</span>
-<span id="cb1-35"><a href="#cb1-35"></a>      <span class="fu">summary</span>(values<span class="sc">$</span>data[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
-<span id="cb1-36"><a href="#cb1-36"></a>    }</span>
-<span id="cb1-37"><a href="#cb1-37"></a>  })</span>
-<span id="cb1-38"><a href="#cb1-38"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="|3-8|10-16|11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">=</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">sidebarLayout</span>(<span class="fu">sidebarPanel</span>(</span>
+<span id="cb1-3"><a href="#cb1-3"></a>      <span class="fu">selectInput</span>(<span class="at">inputId =</span> <span class="st">"dataset"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>                  <span class="at">label =</span> <span class="st">"Choose a dataset:"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5"></a>                  <span class="at">choices =</span> <span class="fu">list</span>(<span class="st">"rock"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
+<span id="cb1-6"><a href="#cb1-6"></a>                                 <span class="st">"pressure"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>                                 <span class="st">"cars"</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>                                 <span class="st">"I want to use my data!!"</span> <span class="ot">=</span><span class="dv">4</span>)), </span>
+<span id="cb1-9"><a href="#cb1-9"></a>      <span class="co"># Let me introduce you Mr. Conditional Panel</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>      <span class="fu">conditionalPanel</span>(</span>
+<span id="cb1-11"><a href="#cb1-11"></a>        <span class="at">condition =</span> <span class="st">"input.dataset == '4'"</span>, <span class="co"># What is the condition for which I should show up?</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>        <span class="co"># What should be displayed inside me once I show up?</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>        <span class="fu">fileInput</span>(<span class="st">"example"</span>,  <span class="co"># label for the server</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>                  <span class="st">""</span>, <span class="co"># no displayed label for users</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>                  <span class="at">accept =</span> <span class="fu">c</span>(<span class="st">"csv"</span>)) <span class="co"># what format do we accept?</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>      ),</span>
+<span id="cb1-17"><a href="#cb1-17"></a>      <span class="fu">actionButton</span>(<span class="st">"load"</span>, <span class="st">"Upload data"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    ),</span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb1-20"><a href="#cb1-20"></a>      <span class="fu">plotOutput</span>(</span>
+<span id="cb1-21"><a href="#cb1-21"></a>        <span class="st">"graph"</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>      ),</span>
+<span id="cb1-23"><a href="#cb1-23"></a>      <span class="fu">verbatimTextOutput</span>(</span>
+<span id="cb1-24"><a href="#cb1-24"></a>        <span class="st">"summary"</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>      )</span>
+<span id="cb1-26"><a href="#cb1-26"></a>    ) <span class="co"># display output</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>  )</span>
+<span id="cb1-28"><a href="#cb1-28"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|3-8|10-16|11|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>ui <span class="ot">=</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">sidebarLayout</span>(<span class="fu">sidebarPanel</span>(</span>
-<span id="cb2-3"><a href="#cb2-3"></a>      <span class="fu">selectInput</span>(<span class="at">inputId =</span> <span class="st">"dataset"</span>,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>                  <span class="at">label =</span> <span class="st">"Choose a dataset:"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>                  <span class="at">choices =</span> <span class="fu">list</span>(<span class="st">"rock"</span> <span class="ot">=</span> <span class="dv">1</span>, </span>
-<span id="cb2-6"><a href="#cb2-6"></a>                                 <span class="st">"pressure"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
-<span id="cb2-7"><a href="#cb2-7"></a>                                 <span class="st">"cars"</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
-<span id="cb2-8"><a href="#cb2-8"></a>                                 <span class="st">"I want to use my data!!"</span> <span class="ot">=</span><span class="dv">4</span>)), </span>
-<span id="cb2-9"><a href="#cb2-9"></a>      <span class="co"># Let me introduce you Mr. Conditional Panel</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a>      <span class="fu">conditionalPanel</span>(</span>
-<span id="cb2-11"><a href="#cb2-11"></a>        <span class="at">condition =</span> <span class="st">"input.dataset == '4'"</span>, <span class="co"># What is the condition for which I should show up?</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>        <span class="co"># What should be displayed inside me once I show up?</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>        <span class="fu">fileInput</span>(<span class="st">"example"</span>,  <span class="co"># label for the server</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a>                  <span class="st">""</span>, <span class="co"># no displayed label for users</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a>                  <span class="at">accept =</span> <span class="fu">c</span>(<span class="st">"csv"</span>)) <span class="co"># what format do we accept?</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a>      ),</span>
-<span id="cb2-17"><a href="#cb2-17"></a>      <span class="fu">actionButton</span>(<span class="st">"load"</span>, <span class="st">"Upload data"</span>)</span>
-<span id="cb2-18"><a href="#cb2-18"></a>    ),</span>
-<span id="cb2-19"><a href="#cb2-19"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb2-20"><a href="#cb2-20"></a>      <span class="fu">plotOutput</span>(</span>
-<span id="cb2-21"><a href="#cb2-21"></a>        <span class="st">"graph"</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a>      ),</span>
-<span id="cb2-23"><a href="#cb2-23"></a>      <span class="fu">verbatimTextOutput</span>(</span>
-<span id="cb2-24"><a href="#cb2-24"></a>        <span class="st">"summary"</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a>      )</span>
-<span id="cb2-26"><a href="#cb2-26"></a>    ) <span class="co"># display output</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a>  )</span>
-<span id="cb2-28"><a href="#cb2-28"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="|18, 25|31,33|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>server <span class="ot">=</span> <span class="cf">function</span>(input, output){</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  values <span class="ot">&lt;-</span> <span class="fu">reactiveValues</span>()</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  dataInput <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="cf">if</span>(input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">1</span>){ </span>
+<span id="cb2-5"><a href="#cb2-5"></a>      data <span class="ot">&lt;-</span> rock</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    } <span class="cf">else</span> <span class="cf">if</span> (input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">2</span> ){</span>
+<span id="cb2-7"><a href="#cb2-7"></a>      data <span class="ot">&lt;-</span> pressure</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    } <span class="cf">else</span> <span class="cf">if</span> (input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">3</span>) {</span>
+<span id="cb2-9"><a href="#cb2-9"></a>      data <span class="ot">&lt;-</span> cars</span>
+<span id="cb2-10"><a href="#cb2-10"></a>    } <span class="cf">else</span> <span class="cf">if</span> (input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">4</span>) {</span>
+<span id="cb2-11"><a href="#cb2-11"></a>      data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(input<span class="sc">$</span>example<span class="sc">$</span>datapath) </span>
+<span id="cb2-12"><a href="#cb2-12"></a>    }</span>
+<span id="cb2-13"><a href="#cb2-13"></a>  })</span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>load, {</span>
+<span id="cb2-15"><a href="#cb2-15"></a>    values<span class="sc">$</span>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">dataInput</span>())</span>
+<span id="cb2-16"><a href="#cb2-16"></a>  })</span>
+<span id="cb2-17"><a href="#cb2-17"></a>output<span class="sc">$</span>graph <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb2-18"><a href="#cb2-18"></a>    <span class="fu">validate</span>(<span class="fu">need</span>(input<span class="sc">$</span>load <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Waiting for data"</span>))</span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">colnames</span>(values<span class="sc">$</span>data) <span class="sc">==</span> <span class="st">"condition"</span>) ){ </span>
+<span id="cb2-20"><a href="#cb2-20"></a>  <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">sapply</span>(values<span class="sc">$</span>data, is.character)) <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb2-21"><a href="#cb2-21"></a>  values<span class="sc">$</span>data[, <span class="fu">sapply</span>(values<span class="sc">$</span>data, is.character) <span class="sc">==</span> T] <span class="ot">=</span> <span class="fu">lapply</span>(values<span class="sc">$</span>data[,   <span class="fu">sapply</span>(values<span class="sc">$</span>data, is.character) <span class="sc">==</span> T], as.factor)</span>
+<span id="cb2-22"><a href="#cb2-22"></a>      } <span class="cf">else</span> {</span>
+<span id="cb2-23"><a href="#cb2-23"></a>  values<span class="sc">$</span>data <span class="ot">=</span> values<span class="sc">$</span>data</span>
+<span id="cb2-24"><a href="#cb2-24"></a>    }</span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="fu">plot</span>(values<span class="sc">$</span>data<span class="sc">$</span>tr <span class="sc">~</span> values<span class="sc">$</span>data<span class="sc">$</span>condition, <span class="at">xlab =</span> <span class="st">"Condition"</span>, <span class="at">ylab =</span> <span class="st">"TR"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26"></a>} <span class="cf">else</span> {</span>
+<span id="cb2-27"><a href="#cb2-27"></a>      <span class="fu">plot</span>(values<span class="sc">$</span>data[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    }</span>
+<span id="cb2-29"><a href="#cb2-29"></a>})</span>
+<span id="cb2-30"><a href="#cb2-30"></a>output<span class="sc">$</span>summary <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({</span>
+<span id="cb2-31"><a href="#cb2-31"></a>    <span class="fu">validate</span>(<span class="fu">need</span>(input<span class="sc">$</span>load <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Waiting for data"</span>))</span>
+<span id="cb2-32"><a href="#cb2-32"></a>  <span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">colnames</span>(values<span class="sc">$</span>data) <span class="sc">==</span> <span class="st">"condition"</span>) ){</span>
+<span id="cb2-33"><a href="#cb2-33"></a>      <span class="fu">summary</span>(values<span class="sc">$</span>data[, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>)])</span>
+<span id="cb2-34"><a href="#cb2-34"></a>    } <span class="cf">else</span> {</span>
+<span id="cb2-35"><a href="#cb2-35"></a>      <span class="fu">summary</span>(values<span class="sc">$</span>data[, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
+<span id="cb2-36"><a href="#cb2-36"></a>    }</span>
+<span id="cb2-37"><a href="#cb2-37"></a>  })</span>
+<span id="cb2-38"><a href="#cb2-38"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
