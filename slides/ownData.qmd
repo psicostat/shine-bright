@@ -17,6 +17,7 @@ library(emoji)
 
 ## Look at the code
 
+`appExamples/brokenApp-dataUpload.R`
 
 ::: {.panel-tabset}
 

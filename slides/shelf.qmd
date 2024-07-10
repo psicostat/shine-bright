@@ -12,6 +12,7 @@ server: shiny
 
 ## What went wrong:
 
+`appExamples/broken-shelf.R`
 
 ::: {.panel-tabset}
 

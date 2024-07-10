@@ -212,6 +212,8 @@ server = function(input, output) {
 
 ## An astonishing result
 
+`appExamples/basic-App.R`
+
 ::: {.panel-tabset}
 
 ## The app
@@ -333,6 +335,8 @@ output$summary <- renderPrint({
 
 
 ## Code
+
+`appExamples/first-app.R`
 
 ::: {.panel-tabset}
 
