@@ -11,6 +11,8 @@ server: shiny
 ## Download the summary 
 
 
+`appExamples/download.R`
+
 ```{r}
 #| panel: sidebar
 a(id = "imp_det", 
@@ -233,7 +235,7 @@ output$downloadSummary <- downloadHandler(
       paste("descriptive-",input$dataset, ".csv", sep = "")
     },
     content = function(file) {
-      write.table(descript_data, file, sep = ",",
+      write.table(values$descript_data, file, sep = ",",
                   row.names = FALSE)
     }
   )

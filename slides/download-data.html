@@ -403,6 +403,7 @@ Ottavia M. Epifania
 </section>
 <section id="download-the-summary" class="slide level2">
 <h2>Download the summary</h2>
+<p><code>appExamples/download.R</code></p>
 <div class="layout-sidebar layout-sidebar-left">
 <div class="cell panel-sidebar">
 <div class="cell-output-display">
@@ -573,7 +574,7 @@ Browse...
 <span id="cb2-63"><a href="#cb2-63"></a>      <span class="fu">paste</span>(<span class="st">"descriptive-"</span>,input<span class="sc">$</span>dataset, <span class="st">".csv"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
 <span id="cb2-64"><a href="#cb2-64"></a>    },</span>
 <span id="cb2-65"><a href="#cb2-65"></a>    <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
-<span id="cb2-66"><a href="#cb2-66"></a>      <span class="fu">write.table</span>(descript_data, file, <span class="at">sep =</span> <span class="st">","</span>,</span>
+<span id="cb2-66"><a href="#cb2-66"></a>      <span class="fu">write.table</span>(values<span class="sc">$</span>descript_data, file, <span class="at">sep =</span> <span class="st">","</span>,</span>
 <span id="cb2-67"><a href="#cb2-67"></a>                  <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb2-68"><a href="#cb2-68"></a>    }</span>
 <span id="cb2-69"><a href="#cb2-69"></a>  )</span>
