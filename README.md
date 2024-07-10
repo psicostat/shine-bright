@@ -9,7 +9,7 @@ Here's the topics:
 - 01 - Slow and steady win the race - eventReactive() [HTML](slides/eventReactive.html)
 - 02 - Slow and steady win the race - The shelf without the elf [HTML](slides/shelf.html)
 - 03 - Improvise, adapt, overcome [HTML](slides/ownData.html)
-- 04 - Dowload [HTML](slides/download.html)
+- 04 - Download [HTML](slides/download.html)
 - 05 - Spread the shine like a fever [HTML](slides/deploy.html)
 - 06 - Interactive graphs [HTML](slides/interactive-graphs.html)
 
