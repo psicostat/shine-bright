@@ -262,12 +262,11 @@ shinyApp(ui, server)
 
 ```{r eval=FALSE}
 #| echo: true
-fluidPage()   # rows with columns within 12-unit
-              # wide grid
+fluidPage()   # rows with columns within 12-unit wide grid
 
 fluidRow(      # custom the page in two columns
   column(6, ), # of width 6 out of the 12-unit
-  column(6)    # on a single row
+  column(6, )  # on a single row
 )
 
 sidebarLayout(     # automatic layout with
@@ -354,7 +353,7 @@ ui <- fluidPage(
       plotOutput( # define the graphical output (we're telling R that this output 
         "graph"   # container must contain a plot)
       ),
-      verbatimTextOutput( # define the graphical output (we're telling R that
+      verbatimTextOutput( # define the verbatim output (we're telling R that
         "summary"   # this output container must contain a Verbatim output)
       )
     ) 
