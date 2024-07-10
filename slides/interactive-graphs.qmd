@@ -129,6 +129,8 @@ output$points <- renderPrint({
 
 ## The code 
 
+`appExamples/interactive-graphs.R`
+
 ::: {.panel-tabset}
 
 ## UI 
