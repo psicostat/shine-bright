@@ -506,24 +506,23 @@ Ottavia M. Epifania
 <span id="cb4-7"><a href="#cb4-7"></a>                                <span class="st">"pressure"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
 <span id="cb4-8"><a href="#cb4-8"></a>                                <span class="st">"cars"</span> <span class="ot">=</span> <span class="dv">3</span>)),</span>
 <span id="cb4-9"><a href="#cb4-9"></a></span>
-<span id="cb4-10"><a href="#cb4-10"></a>      <span class="fu">actionButton</span>(<span class="st">"load"</span>, </span>
-<span id="cb4-11"><a href="#cb4-11"></a>                   <span class="st">"Upload data"</span>)</span>
-<span id="cb4-12"><a href="#cb4-12"></a>      ),</span>
-<span id="cb4-13"><a href="#cb4-13"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb4-14"><a href="#cb4-14"></a>      <span class="fu">plotOutput</span>(</span>
-<span id="cb4-15"><a href="#cb4-15"></a>        <span class="st">"graph"</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>      ),</span>
-<span id="cb4-17"><a href="#cb4-17"></a>      <span class="fu">verbatimTextOutput</span>(</span>
-<span id="cb4-18"><a href="#cb4-18"></a>        <span class="st">"summary"</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a>      )</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    ) <span class="co"># display output</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a>  )</span>
-<span id="cb4-22"><a href="#cb4-22"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10"></a>      <span class="fu">actionButton</span>(<span class="st">"load"</span>, <span class="st">"Upload data"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11"></a>      ),</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb4-13"><a href="#cb4-13"></a>      <span class="fu">plotOutput</span>(</span>
+<span id="cb4-14"><a href="#cb4-14"></a>        <span class="st">"graph"</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a>      ),</span>
+<span id="cb4-16"><a href="#cb4-16"></a>      <span class="fu">verbatimTextOutput</span>(</span>
+<span id="cb4-17"><a href="#cb4-17"></a>        <span class="st">"summary"</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a>      )</span>
+<span id="cb4-19"><a href="#cb4-19"></a>    ) </span>
+<span id="cb4-20"><a href="#cb4-20"></a>  )</span>
+<span id="cb4-21"><a href="#cb4-21"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|16, 20|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){</span>
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="16, 20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){</span>
 <span id="cb5-2"><a href="#cb5-2"></a>   values <span class="ot">&lt;-</span> <span class="fu">reactiveValues</span>()</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    dataInput <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
 <span id="cb5-4"><a href="#cb5-4"></a>      <span class="cf">if</span>(input<span class="sc">$</span>dataset <span class="sc">==</span> <span class="dv">1</span>){</span>
