@@ -168,7 +168,7 @@ ui <- fluidPage( # same as before
 
 ```{r}
 #| echo: true
-#| code-line-numbers: "16, 20"
+#| code-line-numbers: "|16, 20|"
 server <- function(input, output){
    values <- reactiveValues()
     dataInput <- reactive({
