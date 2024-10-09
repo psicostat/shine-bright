@@ -16,3 +16,5 @@ Here's the topics:
 Here you can find some [example apps](https://github.com/psicostat/shine-bright) you can use as a starting point for your projects! Some of them are broken, some are not...choose your own adventure :)
 
 Here you can find [an app](https://ottaviae.shinyapps.io/interactive-graphs/) that is full of mistakes (although it is able to do something). Can you identify them?
+
+[gbu](gbu.jpg)
